@@ -1,9 +1,14 @@
-var SerialPort = require("serialport").SerialPort;
+var serialport = require("serialport");
+var SerialPort = serialport.SerialPort;
 var express = require('express');
 var app = express();
 
 var serialPort = new SerialPort("/dev/ttyUSB0", {
-  baudrate: 9600
+  baudrate: 9600,
+  parser: serialport.parsers.raw
+});
+serialPort.on("data", function (data) {
+  console.log("receive: "+data);
 });
 
 
